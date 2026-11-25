@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280">
+    <!-- Cache Control: Browser ko page cache karne se rokta hai -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Cadet Home - National Cadet Corps (NCC)</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy-blue: #0B1F3A;
+            --navy-dark: #061224;
+            --army-red: #C8102E;
+            --airforce-blue: #00AEEF;
+            --gold-accent: #D4AF37;
+            --bg-light: #F1F5F9;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+             min-width: 1280px; 
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ================= AUTH LOADING SHIELD ================= */
+        /* Jab tak Firebase verify nahi karta, screen hidden rahegi */
+        #authShield {
+            position: fixed;
+            inset: 0;
+            background: var(--navy-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(212, 175, 55, 0.25);
+            border-top-color: var(--gold-accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ================= TOP HEADER (NAMASTE + MENU) ================= */
+        .top-header {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-blue));
+            color: var(--white);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+            border-bottom: 4px solid var(--army-red);
+        }
+
+        /* Top-Left User Profile Area */
+        .user-profile-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: 3px solid var(--gold-accent);
+            object-fit: cover;
+            background: #1E293B;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .greeting-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .namaste-text {
+            font-size: 14px;
+            color: #CBD5E1;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.3;
+        }
+
+        .user-name span {
+            color: var(--gold-accent);
+        }
+
+        /* Top-Right Menu Button & Dropdown */
+        .menu-container {
+            position: relative;
+        }
+
+        .menu-btn {
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--gold-accent);
+            border: 2px solid var(--gold-accent);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: var(--gold-accent);
+            color: var(--navy-dark);
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 62px;
+            right: 0;
+            width: 280px;
+            background: var(--navy-blue);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+            animation: dropFade 0.25s ease forwards;
+            z-index: 1500;
+        }
+
+        .menu-dropdown.open {
+            display: block;
+        }
+
+        @keyframes dropFade {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 500;
+            border-radius: 9px;
+            transition: 0.25s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .menu-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .menu-item i {
+            color: var(--gold-accent);
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding-left: 18px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--army-red);
+            color: var(--white);
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #A30B23;
+            transform: translateY(-1px);
+        }
+
+        .terminate-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px;
+    background: transparent;
+    color: #FCA5A5;
+    border: 1.5px solid #DC2626;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.terminate-btn:hover {
+    background: #991B1B;
+    color: #FFFFFF;
+    border-color: #991B1B;
+}
+
+        /* ================= SECURITY NOTICE STRIP ================= */
+        .security-strip {
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 9px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 1px solid #FDE68A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* ================= MAIN DASHBOARD CONTENT ================= */
+        .main-container {
+            max-width: 1240px;
+            margin: 35px auto;
+            padding: 0 24px 60px;
+        }
+
+        .cadet-banner {
+            background: linear-gradient(120deg, var(--navy-blue), #163763);
+            color: var(--white);
+            border-radius: 18px;
+            padding: 32px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 35px;
+            border-left: 6px solid var(--gold-accent);
+            box-shadow: 0 12px 30px rgba(11, 31, 58, 0.15);
+        }
+
+        .cadet-banner h2 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .cadet-banner p {
+            color: #CBD5E1;
+            font-size: 14.5px;
+        }
+
+        .reg-badge {
+            background: rgba(212, 175, 55, 0.16);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.8px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy-blue);
+            margin-bottom: 20px;
+        }
+
+        /* Active Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            transition: 0.3s ease;
+            border-bottom: 4px solid var(--navy-blue);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-bottom-color: var(--army-red);
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 175px;
+            object-fit: cover;
+        }
+
+        .feature-body {
+            padding: 20px;
+        }
+
+        .feature-body h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy-blue);
+            margin-bottom: 8px;
+        }
+
+        .feature-body p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .feature-meta {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--army-red);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Quick Info Widgets */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .info-card {
+            padding: 22px;
+            border-radius: 14px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-navy { background: var(--navy-blue); }
+        .info-red { background: var(--army-red); }
+        .info-sky { background: #0284C7; }
+
+        .info-card i {
+            font-size: 30px;
+            opacity: 0.9;
+        }
+
+        .info-card h5 {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        .info-card p {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- AUTH VERIFICATION SHIELD (Back-button bypass rokne ke liye) -->
+    <div id="authShield">
+        <div class="spinner"></div>
+        <p style="font-size: 14px; color: #CBD5E1;">Verifying Cadet Session...</p>
+    </div>
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <!-- TOP LEFT: PROFILE PIC + NAMASTE + NAME -->
+        <div class="user-profile-left">
+            <img id="userAvatar" class="profile-avatar" src="https://ui-avatars.com/api/?name=NCC+Cadet&background=D4AF37&color=0B1F3A&bold=true" alt="Cadet Profile">
+            <div class="greeting-box">
+                <span class="namaste-text">🙏 Namaste,</span>
+                <div class="user-name"><span>Cadet</span> <span id="userNameDisplay" style="color: #FFFFFF;">Loading...</span></div>
+            </div>
+        </div>
+
+        <!-- TOP RIGHT: MENU BUTTON + DROPDOWN -->
+        <div class="menu-container">
+            <button class="menu-btn" id="menuToggleBtn">
+                <i class="fa-solid fa-bars"></i> Menu
+            </button>
+
+            <div class="menu-dropdown" id="menuDropdown">
+                <!-- Yahan se aap aage chal kar apne hisab se menu items change kar sakte hain -->
+                <a href="#profile" class="menu-item">
+                    <i class="fa-solid fa-user"></i> My Profile
+                </a>
+                <a href="#training" class="menu-item">
+                    <i class="fa-solid fa-medal"></i> Training & Parade Tracker
+                </a>
+                <a href="#camps" class="menu-item">
+                    <i class="fa-solid fa-campground"></i> Upcoming Camps & Duty
+                </a>
+                <a href="#alerts" class="menu-item">
+                    <i class="fa-solid fa-bell"></i> Announcements & Alerts
+                </a>
+
+                <!-- LOGOUT BUTTON -->
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+
+                <!-- TERMINATE PROFILE BUTTON -->
+                <button class="terminate-btn" id="terminateBtn">
+                <i class="fa-solid fa-user-slash"></i> Terminate Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SESSION SECURITY NOTICE -->
+    <div class="security-strip">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Session Security Active: 10 minute tak koi activity na hone par aap apne aap logout ho jayenge.</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+        <div class="cadet-banner">
+            <div>
+                <h2>Unity and Discipline</h2>
+                <p>Welcome to your official NCC Cadet Dashboard. Track your parades, camps, and unit updates here.</p>
+            </div>
+            <div class="reg-badge" id="regNoDisplay">
+                Reg No: Loading...
+            </div>
+        </div>
+
+        <h3 class="section-title">Active Features</h3>
+        <div class="features-grid">
+            <div class="feature-card" id="camps">
+                <img src="https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?auto=format&fit=crop&w=700&q=80" alt="Upcoming Camps">
+                <div class="feature-body">
+                    <h4>Upcoming Camps</h4>
+                    <p>Republic Day Camp (RDC) selection trials aur Annual Training Camp (CATC) ka schedule check karein.</p>
+                    <div class="feature-meta"><i class="fa-regular fa-calendar"></i> Next Camp: January 2027</div>
+                </div>
+            </div>
+
+            <div class="feature-card" id="training">
+                <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=700&q=80" alt="Physical Tasks">
+                <div class="feature-body">
+                    <h4>Physical & Parade Tasks</h4>
+                    <p>Apni morning drill, firing practice aur physical fitness attendance record ko track karein.</p>
+                    <div class="feature-meta"><i class="fa-solid fa-check-double"></i> Attendance: 85% Completed</div>
+                </div>
+            </div>
+
+            <div class="feature-card" id="alerts">
+                <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=700&q=80" alt="Event Milestones">
+                <div class="feature-body">
+                    <h4>Certificates & Milestones</h4>
+                    <p>NCC 'A', 'B' aur 'C' Certificate exam dates, syllabus aur unit notices yahan dekhein.</p>
+                    <div class="feature-meta"><i class="fa-solid fa-award"></i> Exam Portal Active</div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title" id="profile">Cadet Quick Info</h3>
+        <div class="info-grid">
+            <div class="info-card info-navy">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <h5>Registered Email</h5>
+                    <p id="userEmailDisplay" style="font-size: 14.5px; word-break: break-all;">---</p>
+                </div>
+            </div>
+            <div class="info-card info-red">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                    <h5>Phone Number</h5>
+                    <p id="userPhoneDisplay">---</p>
+                </div>
+            </div>
+            <div class="info-card info-sky">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                    <h5>Unit / Address</h5>
+                    <p id="userAddressDisplay" style="font-size: 14.5px;">---</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FIREBASE + SECURITY + AUTO-LOGOUT SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+       import { getAuth, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // ==========================================================
+        // STEP 1: APNA WAHI FIREBASE CONFIG YAHAN PASTE KAREIN
+        // ==========================================================
+         const firebaseConfig = {
+  apiKey: "AIzaSyC84XqN0Z6pk7QDFPimIXFJOSAIVAVqM1w",
+  authDomain: "courses-d6f51.firebaseapp.com",
+  projectId: "courses-d6f51",
+  storageBucket: "courses-d6f51.firebasestorage.app",
+  messagingSenderId: "174296262594",
+  appId: "1:174296262594:web:375fbf8ef982316472585b",
+  measurementId: "G-EDPL34HH4G"
+};
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const authShield = document.getElementById('authShield');
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const menuDropdown = document.getElementById('menuDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // ==========================================================
+        // 1. MENU DROPDOWN TOGGLE
+        // ==========================================================
+        menuToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuDropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menuDropdown.contains(e.target) && e.target !== menuToggleBtn) {
+                menuDropdown.classList.remove('open');
+            }
+        });
+
+        // ==========================================================
+        // 2. STRICT BACK-BUTTON PROTECTION (BFCACHE DEFEAT)
+        // Agar user logout ke baad Back dabaye, toh cached page nahi khulega
+        // ==========================================================
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                authShield.style.display = 'flex';
+                window.location.reload();
+            }
+        });
+
+        // ==========================================================
+        // 3. STRICT AUTH GUARD & USER DATA LOAD
+        // ==========================================================
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                // User logged in nahi hai -> history replace karke seedha Landing Page par bhejo
+                window.location.replace("index.html");
+                return;
+            }
+
+            // User verified hai -> Firestore se profile data fetch karein
+            try {
+                const docRef = doc(db, "cadets", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('userNameDisplay').innerText = data.fullName || "Cadet";
+                    document.getElementById('regNoDisplay').innerText = "Reg No: " + (data.regimentalNumber || "N/A");
+                    document.getElementById('userEmailDisplay').innerText = data.email || user.email;
+                    document.getElementById('userPhoneDisplay').innerText = data.phone || "N/A";
+                    document.getElementById('userAddressDisplay').innerText = data.address || "N/A";
+
+                    if (data.profilePicture) {
+                        document.getElementById('userAvatar').src = data.profilePicture;
+                    }
+                } else {
+                    document.getElementById('userNameDisplay').innerText = user.displayName || "NCC Cadet";
+                    document.getElementById('userEmailDisplay').innerText = user.email;
+                }
+            } catch (err) {
+                console.error("Error loading profile:", err);
+            }
+
+            // Sab verify ho gaya -> Shield hatao aur 10-min inactivity timer start karo
+            authShield.style.display = 'none';
+            startInactivityTimer();
+        });
+
+        // ==========================================================
+        // 4. SECURE LOGOUT FUNCTION (NO BACK-BUTTON RETURN)
+        // ==========================================================
+        async function performLogout(customMessage = null) {
+            try {
+                authShield.style.display = 'flex';
+                await signOut(auth);
+                sessionStorage.clear();
+                localStorage.clear();
+
+                if (customMessage) {
+                    alert(customMessage);
+                }
+
+                // location.replace() history se home.html ko hata deta hai
+                window.location.replace("index.html");
+            } catch (error) {
+                alert("Logout error: " + error.message);
+                authShield.style.display = 'none';
+            }
+        }
+
+        logoutBtn.addEventListener('click', () => performLogout());
+
+        // ==========================================================
+        // 5. 10-MINUTE INACTIVITY AUTO-LOGOUT TIMER
+        // ==========================================================
+        const INACTIVITY_LIMIT = 10 * 60 * 1000; // 10 minutes (600,000 ms)
+        let inactivityTimer;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                performLogout("10 minute tak koi activity nahi hui. Suraksha ke liye aapko automatically logout kar diya gaya hai.");
+            }, INACTIVITY_LIMIT);
+        }
+
+        function startInactivityTimer() {
+            const activityEvents = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart', 'click'];
+            activityEvents.forEach(evt => {
+                window.addEventListener(evt, resetInactivityTimer, { passive: true });
+            });
+            resetInactivityTimer();
+        }
+
+        // ==========================================================
+// 6. PERMANENTLY TERMINATE PROFILE (FIRESTORE + AUTH DELETE)
+// ==========================================================
+const terminateBtn = document.getElementById('terminateBtn');
+
+terminateBtn.addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // Double confirmation taaki galti se profile delete na ho
+    const confirmDelete = confirm(
+        "⚠️ WARNING: Kya aap sach mein apni profile hamesha ke liye terminate karna chahte hain? Iske baad aapka saara data delete ho jayega aur aapko fir se register karna padega."
+    );
+    if (!confirmDelete) return;
+
+    const typeConfirm = prompt("Confirm karne ke liye capital letters mein DELETE likhein:");
+    if (typeConfirm !== "DELETE") {
+        alert("Profile termination cancel kar diya gaya.");
+        return;
+    }
+
+    try {
+        authShield.style.display = 'flex';
+
+        // 1. Pehle Firestore se cadet ka saara data delete karein
+        await deleteDoc(doc(db, "cadets", user.uid));
+
+        // 2. Fir Firebase Authentication se user ka account permanently delete karein
+        await deleteUser(user);
+
+        // 3. Browser storage clear karke landing page par bhejein
+        sessionStorage.clear();
+        localStorage.clear();
+
+        alert("Aapki profile hamesha ke liye terminate kar di gayi hai.");
+        window.location.replace("index.html");
+
+    } catch (error) {
+        authShield.style.display = 'none';
+
+        // Firebase security rule: agar login kiye bahut der ho gayi ho
+        if (error.code === 'auth/requires-recent-login') {
+            alert("Suraksha ke liye, profile terminate karne se pehle ek baar Logout karke dobara Login karein, fir Terminate Profile par click karein.");
+        } else {
+            alert("Profile terminate karne mein error aaya: " + error.message);
+        }
+    }
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Exact Laptop View on Mobile (Auto-scaled to fit phone screen) -->
+    <meta name="viewport" content="width=1280">
+    <title>National Cadet Corps (NCC) - Unity and Discipline</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --navy-blue: #0B1F3A;
+            --army-red: #C8102E;
+            --airforce-blue: #00AEEF;
+            --gold-accent: #D4AF37;
+            --bg-light: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-width: 1280px;
+            overflow-x: hidden;
+        }
+
+        /* ================= NAVBAR ================= */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .ncc-crest {
+            width: 45px;
+            height: 50px;
+            background: linear-gradient(90deg, var(--army-red) 33%, var(--navy-blue) 33% 66%, var(--airforce-blue) 66%);
+            border-radius: 5px 5px 25px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-accent);
+            font-weight: 800;
+            font-size: 13px;
+            border: 2px solid var(--gold-accent);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .logo-text h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy-blue);
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 11px;
+            color: var(--army-red);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--army-red);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--army-red);
+            bottom: -5px;
+            left: 0;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 9px 22px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-login {
+            background-color: var(--navy-blue);
+            color: var(--white);
+        }
+
+        .btn-login:hover {
+            background-color: #163560;
+        }
+
+        .btn-register {
+            background-color: var(--army-red);
+            color: var(--white);
+        }
+
+        .btn-register:hover {
+            background-color: #a30b23;
+        }
+
+        /* ================= HERO SECTION ================= */
+        .hero {
+            position: relative;
+            min-height: 540px;
+            background: linear-gradient(90deg, rgba(11, 31, 58, 0.95) 0%, rgba(11, 31, 58, 0.78) 50%, rgba(11, 31, 58, 0.35) 100%),
+                        url('https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 60px 25px;
+            color: var(--white);
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .motto-tag {
+            color: var(--gold-accent);
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .hero-content h2 {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #E2E8F0;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-white {
+            background-color: var(--white);
+            color: var(--navy-blue);
+            padding: 12px 28px;
+            font-size: 15px;
+        }
+
+        .btn-white:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            padding: 12px 28px;
+            font-size: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--navy-blue);
+        }
+
+        /* ================= SCROLLING TICKER ================= */
+        .news-ticker {
+            background-color: var(--airforce-blue);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            height: 48px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .ticker-label {
+            background-color: var(--army-red);
+            padding: 0 25px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.8px;
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            animation: tickerScroll 28s linear infinite;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--navy-blue);
+        }
+
+        .ticker-move:hover {
+            animation-play-state: paused;
+        }
+
+        .ticker-move span {
+            margin-right: 50px;
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(60%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ================= ABOUT NCC SECTION ================= */
+        .about-section {
+            max-width: 1280px;
+            margin: 70px auto;
+            padding: 0 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--navy-blue);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .about-highlight {
+            border-left: 4px solid var(--army-red);
+            padding-left: 18px;
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .about-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-box h4 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--army-red);
+        }
+
+        .stat-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: 175px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .photo-grid img:hover {
+            transform: scale(1.03);
+        }
+
+        /* ================= CORE VALUES SECTION ================= */
+        .values-section {
+            max-width: 1280px;
+            margin: 50px auto 80px;
+            padding: 0 25px;
+        }
+
+        .section-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--navy-blue);
+            margin-bottom: 30px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .value-card {
+            background: var(--white);
+            border: 2px solid var(--gold-accent);
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.25);
+        }
+
+        .card-top-banner {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 32px;
+        }
+
+        .card-body {
+            padding: 22px 18px;
+        }
+
+        .card-body h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy-blue);
+            margin-bottom: 10px;
+        }
+
+        .card-body p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            border-top: 4px solid var(--army-red);
+        }
+
+        /* ================= LOGIN / REGISTER MODAL ================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 31, 58, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--white);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-top: 5px solid var(--army-red);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-box h3 {
+            color: var(--navy-blue);
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .modal-box p {
+            color: var(--text-muted);
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--navy-blue);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--navy-blue);
+        }
+
+        .modal-submit {
+            width: 100%;
+            padding: 11px;
+            background: var(--army-red);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo-section">
+                <div class="ncc-crest">NCC</div>
+                <div class="logo-text">
+                    <h1>National Cadet Corps</h1>
+                    <span>UNITY AND DISCIPLINE</span>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="about.html">About NCC</a></li>
+                <li><a href="training.html">Training & Values</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="media.html">Media</a></li>
+            </ul>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login">Login</a>
+                <a href="register.html" class="btn btn-register">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="motto-tag">Unity and Discipline</span>
+                <h2>Training The Youth,<br>Serving The Nation.</h2>
+                <p>Join India's premier youth organization to build character, comradeship, leadership, and the spirit of selfless service towards the motherland.</p>
+                <div class="hero-btns">
+                    <a href="login.html" class="btn btn-white">Enroll Now</a>
+                    <a href="about.html" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCROLLING UPDATES BAR -->
+    <div class="news-ticker">
+        <div class="ticker-label">LATEST UPDATES & NEWS:</div>
+        <div class="ticker-wrap">
+            <div class="ticker-move">
+                <span>📅 Upcoming RDC (Republic Day Camp) Selection Trials starting next month.</span>
+                <span>🎖️ New Cadet Enrollment Drive open for academic session 2026–2027.</span>
+                <span>🏕️ Combined Annual Training Camp (CATC) circular released for Senior Division Cadets.</span>
+                <span>📜 NCC 'B' and 'C' Certificate examination schedule updated on portal.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT NCC SECTION -->
+    <section class="about-section" id="about">
+        <div class="about-text">
+            <h3>About the National Cadet Corps</h3>
+            <p class="about-highlight">
+                The youth wing of the Indian Armed Forces, grooming the youth of the country into disciplined and patriotic citizens.
+            </p>
+            <p class="about-desc">
+                The National Cadet Corps (NCC) is engaged in grooming the youth into disciplined and patriotic citizens. Comprising the Army, Navy, and Air Force wings, NCC provides exposure to military training, adventure sports, social service, and community development across schools and colleges in India.
+            </p>
+            <div class="about-stats">
+                <div class="stat-box">
+                    <h4>17 Lakh+</h4>
+                    <p>Active Cadets</p>
+                </div>
+                <div class="stat-box">
+                    <h4>3 Wings</h4>
+                    <p>Army, Navy & Air</p>
+                </div>
+                <div class="stat-box">
+                    <h4>17 Directorates</h4>
+                    <p>Across India</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="photo-grid">
+            <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=600&q=80" alt="NCC Parade Drill">
+            <img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?auto=format&fit=crop&w=600&q=80" alt="Social Service Activity">
+            <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=600&q=80" alt="Cadet Training">
+            <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=600&q=80" alt="NCC Adventure Camp">
+        </div>
+    </section>
+
+    <!-- CORE VALUES SECTION -->
+    <section class="values-section" id="values">
+        <h3 class="section-title">Core Values</h3>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="card-top-banner">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="card-body">
+                    <h4>Unity & Discipline</h4>
+                    <p>Developing camaraderie, teamwork, and strict self-discipline among youth from diverse backgrounds.</p>
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="card-top-banner">
+                    <i class="fa-solid fa-users-gear"></i>
+                </div>
+                <div class="card-body">
+                    <h4>Leadership Development</h4>
+                    <p>Instilling officer-like qualities, decision-making skills, and courage to lead from the front.</p>
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="card-top-banner">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <div class="card-body">
+                    <h4>Selfless Service</h4>
+                    <p>Contributing actively to disaster relief, blood donation, tree plantation, and nation-building.</p>
+                </div>
+            </div>
+
+            <div class="value-card">
+                <div class="card-top-banner">
+                    <i class="fa-solid fa-earth-asia"></i>
+                </div>
+                <div class="card-body">
+                    <h4>National Integration</h4>
+                    <p>Fostering pride in Indian heritage and strengthening unity across every state and culture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 National Cadet Corps (NCC) Portal | Unity and Discipline. All Rights Reserved.</p>
+    </footer>
+
+    <!-- LOGIN / REGISTER POPUP MODAL -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <h3 id="modalTitle">Cadet / ANO Login</h3>
+            <p id="modalSubtitle">Enter your credentials to access your NCC dashboard</p>
+
+            <form onsubmit="handleAuth(event)">
+                <div class="form-group" id="nameField" style="display: none;">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Cadet ID / Email</label>
+                    <input type="text" required placeholder="e.g., JH26SDA104521">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select>
+                        <option>Cadet</option>
+                        <option>ANO (Associate NCC Officer)</option>
+                        <option>Battalion Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="Enter password">
+                </div>
+                <button type="submit" class="modal-submit" id="modalBtn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('authModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalBtn = document.getElementById('modalBtn');
+        const nameField = document.getElementById('nameField');
+
+        function openModal(type) {
+            modal.style.display = 'flex';
+            if (type === 'register') {
+                modalTitle.innerText = 'New Cadet Registration';
+                modalSubtitle.innerText = 'Register for NCC enrollment and portal access';
+                modalBtn.innerText = 'Register Now';
+                nameField.style.display = 'block';
+            } else {
+                modalTitle.innerText = 'Cadet / ANO Login';
+                modalSubtitle.innerText = 'Enter your credentials to access your NCC dashboard';
+                modalBtn.innerText = 'Login';
+                nameField.style.display = 'none';
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(e) {
+            if (e.target === modal) closeModal();
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            alert('Success! Redirecting to Cadet Dashboard...');
+            closeModal();
+        }
+    </script>
+</body>
+</html>
